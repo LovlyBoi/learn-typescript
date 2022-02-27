@@ -59,17 +59,19 @@ npx tsc --watch
 
 在 `tsconfig.json` 中，我们可以对 TS 编译进行详细的配置：
 
-**/* Language and Environment */**：
+**/* Language and Environment */** ：
 
 - target：TS 最终被编译为哪个版本的 JS 代码，默认是 `es2016`，即 `ES7`。
 
-**/* Type Checking */**:
+**/* Type Checking */** :
 
 - strict：严格模式，默认为 `true`，注释掉或改为 `flase` 取消严格模式。
 - noImplicitAny：不允许隐式的 `any`，打开严格模式会打开这个选项，当然，关闭严格模式后我们也可以单独打开这个选项。
 - strictNullChecks：严格的空值检查，不允许 `null` 和 `undefined` 赋值给其他类型。
 
 ## 类型
+
+对于类型，我们可以在变量的右侧添加「类型注释」来显示的指定这是一个什么类型的变量。
 
 ### string
 
@@ -105,15 +107,11 @@ let bool: boolean = true;
   const strArr: string[] = ['a', 'b', 'c'];
   ```
 
-  
-
 - `Array<type>`
 
   ```typescript
   const strArr: Array<string> = ['a', 'b', 'c'];
   ```
-
-  
 
 在 TS 中，可以发现语言规范在尽量让我们不去书写混合类型的数组。
 
@@ -127,3 +125,25 @@ let b: string = a; // 不会报错
 ```
 
 如果一个 `any` 类型的值，被传递给了其他类型的变量，并不会导致报错。这就会导致 `any` 类型会污染其他变量的类型，所以在开发中，我们要尽量避免过多的 `any`。
+
+### 函数
+
+函数在 JS 中的地位极高。在 TS 中，对于函数，它的形参可以指定类型，它的返回值可以指定类型，函数本身也可以指定类型。
+
+```typescript
+function add(a: number, b: number): number {
+  return a + b;
+}
+
+// add函数本身的类型为：(foo: number, bar: number) => number，这里形参名是无所谓的
+let getSum: (foo: number, bar: number) => number = add;
+```
+
+当然，TS 是可以进行类型推断的，一般来说，我们可以不指明返回值类型，而是让 TS 自己推断出来返回值类型。
+
+如果没有返回值，那么返回值类型为 `void`；如果永远都不会执行到 `return` 语句（比如抛出异常），那么返回值为 `never`。
+
+如果不确定参数个数，那么可以使用 `...args` 这种 rest 参数的形式编写；如果参数是可选的，那么可以在参数后加上 `?` 来表示这是一个可选参数。
+
+### 对象类型
+
