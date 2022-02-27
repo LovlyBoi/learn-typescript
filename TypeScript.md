@@ -59,7 +59,71 @@ npx tsc --watch
 
 在 `tsconfig.json` 中，我们可以对 TS 编译进行详细的配置：
 
-- target：TS 最终被编译为哪个版本的 JS 代码，eg：`es5`。
+**/* Language and Environment */**：
+
+- target：TS 最终被编译为哪个版本的 JS 代码，默认是 `es2016`，即 `ES7`。
+
+**/* Type Checking */**:
+
+- strict：严格模式，默认为 `true`，注释掉或改为 `flase` 取消严格模式。
+- noImplicitAny：不允许隐式的 `any`，打开严格模式会打开这个选项，当然，关闭严格模式后我们也可以单独打开这个选项。
+- strictNullChecks：严格的空值检查，不允许 `null` 和 `undefined` 赋值给其他类型。
 
 ## 类型
 
+### string
+
+字符串，对应 JS 的 String 类型。
+
+```typescript
+let str: string = 'Hello World!';
+```
+
+### number
+
+数字，对应 JS 的 Number 类型。
+
+```typescript
+let num: number = 3;
+```
+
+### boolean
+
+布尔类型，对应 JS 的 Boolean 类型。
+
+```typescript
+let bool: boolean = true;
+```
+
+### 数组
+
+数组有两种定义方法，一种是在类型后加 `[]` 代表是一个某个类型的数组类型，另一种是通过 `Array` 泛型来创建。
+
+- `type[]`
+
+  ```typescript
+  const strArr: string[] = ['a', 'b', 'c'];
+  ```
+
+  
+
+- `Array<type>`
+
+  ```typescript
+  const strArr: Array<string> = ['a', 'b', 'c'];
+  ```
+
+  
+
+在 TS 中，可以发现语言规范在尽量让我们不去书写混合类型的数组。
+
+### any
+
+`any` 会阻止 TS 对变量的类型检查。当我们不希望某个特定的值到类型检查失败，我们可以将它设为 `any`。
+
+```typescript
+let a: any = 2;
+let b: string = a; // 不会报错
+```
+
+如果一个 `any` 类型的值，被传递给了其他类型的变量，并不会导致报错。这就会导致 `any` 类型会污染其他变量的类型，所以在开发中，我们要尽量避免过多的 `any`。
